@@ -1,3 +1,9 @@
 *idea*
 *bin*
 *obj*
+
+*.aux
+*.log
+*.gz
+*.toc
+*.out

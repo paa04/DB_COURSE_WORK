@@ -80,7 +80,7 @@ public class LeidenAlg
 
             if (improvement)
             {
-                RefinePartition();
+                //RefinePartition();
 
                 await AggregateCommunities();
             }
@@ -266,7 +266,7 @@ public class LeidenAlg
                 }
 
 
-                var goodOnes = 
+              //  var goodOnes = 
             }
         }
     }

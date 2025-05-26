@@ -17,13 +17,13 @@ class Program
 
     static async Task Main(string[] args)
     {
-        var alg = new LeidenAlg(graphService);
+        //var alg = new LeidenAlg(graphService);
 
-        await alg.AlgInit();
+       // await alg.AlgInit();
 
-        await alg.ExecuteLeiden();
+       // await alg.ExecuteLeiden();
         
-        // await GenGraph();
+        //await GenGraph();
 
         // var result = await graphService.GetAllNeighboursId(5);
         //
