@@ -3,8 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AdaptiveExpressions.TriggerTrees;
 
 namespace DB_COURSE_WORK;
+
+public class GenParams
+{
+    public int NumberOfCommunities { get; set; } = 5;
+    public int NodesPerCommunity { get; set; } = 20;
+    public double IntraCommunityDensity { get; set; } = 0.7; 
+    public double InterCommunityDensity { get; set; } = 0.05;
+}
 
 public class GraphGenerator
 {
@@ -17,10 +26,15 @@ public class GraphGenerator
     public double IntraCommunityDensity { get; set; } = 0.7; // Вероятность связи внутри сообщества
     public double InterCommunityDensity { get; set; } = 0.05; // Вероятность связи между сообществами
 
-    public GraphGenerator(IDriver driver)
+    public GraphGenerator(IDriver driver, GenParams param)
     {
         _driver = driver;
         _random = new Random();
+        
+        NumberOfCommunities = param.NumberOfCommunities;
+        NodesPerCommunity = param.NodesPerCommunity;
+        IntraCommunityDensity = param.IntraCommunityDensity;
+        InterCommunityDensity = param.InterCommunityDensity;
     }
 
     /// <summary>
@@ -28,8 +42,8 @@ public class GraphGenerator
     /// </summary>
     public async Task GenerateGraph()
     {
-        Console.WriteLine(
-            $"Начало генерации графа с {NumberOfCommunities} сообществами, по {NodesPerCommunity} узлов в каждом...");
+        // Console.WriteLine(
+            // $"Начало генерации графа с {NumberOfCommunities} сообществами, по {NodesPerCommunity} узлов в каждом...");
 
         // Создаем структуру сообществ и узлов
         var communities = new Dictionary<int, List<int>>();
@@ -69,7 +83,7 @@ public class GraphGenerator
             });
         }
 
-        Console.WriteLine($"Создано {nodeIdCounter} узлов в Neo4j.");
+        // Console.WriteLine($"Создано {nodeIdCounter} узлов в Neo4j.");
 
         // Создаем связи между узлами
         var edgesToCreate = new List<(int source, int target)>();
@@ -109,7 +123,7 @@ public class GraphGenerator
             }
         }
 
-        Console.WriteLine($"Сгенерировано {edgesToCreate.Count} связей.");
+        // Console.WriteLine($"Сгенерировано {edgesToCreate.Count} связей.");
 
         // Создаем связи пакетами для оптимизации
         const int batchSize = 1000;
@@ -121,7 +135,7 @@ public class GraphGenerator
 
         // await CreateCommunities(communities);
 
-        Console.WriteLine("Граф успешно сгенерирован в Neo4j!");
+        // Console.WriteLine("Граф успешно сгенерирован в Neo4j!");
         PrintGraphStatistics(communities, edgesToCreate);
     }
 
@@ -227,19 +241,19 @@ public class GraphGenerator
                 interCommunityEdges++;
         }
 
-        Console.WriteLine("\nСтатистика сгенерированного графа:");
-        Console.WriteLine($"Всего узлов: {totalNodes}");
-        Console.WriteLine($"Всего рёбер: {edges.Count}");
-        Console.WriteLine($"Рёбер внутри сообществ: {intraCommunityEdges}");
-        Console.WriteLine($"Рёбер между сообществами: {interCommunityEdges}");
-        Console.WriteLine($"Процент рёбер внутри сообществ: {(double)intraCommunityEdges / edges.Count:P2}");
-        Console.WriteLine($"Процент рёбер между сообществами: {(double)interCommunityEdges / edges.Count:P2}");
+        // Console.WriteLine("\nСтатистика сгенерированного графа:");
+        // Console.WriteLine($"Всего узлов: {totalNodes}");
+        // Console.WriteLine($"Всего рёбер: {edges.Count}");
+        // Console.WriteLine($"Рёбер внутри сообществ: {intraCommunityEdges}");
+        // Console.WriteLine($"Рёбер между сообществами: {interCommunityEdges}");
+        // Console.WriteLine($"Процент рёбер внутри сообществ: {(double)intraCommunityEdges / edges.Count:P2}");
+        // Console.WriteLine($"Процент рёбер между сообществами: {(double)interCommunityEdges / edges.Count:P2}");
 
-        Console.WriteLine("\nРазмеры сообществ:");
-        foreach (var commId in communities.Keys)
-        {
-            Console.WriteLine($"Сообщество {commId}: {communities[commId].Count} узлов");
-        }
+        // Console.WriteLine("\nРазмеры сообществ:");
+        // foreach (var commId in communities.Keys)
+        // {
+            // Console.WriteLine($"Сообщество {commId}: {communities[commId].Count} узлов");
+        // }
     }
 
     private Dictionary<int, int> nodeToComm => Enumerable.Range(0, NumberOfCommunities * NodesPerCommunity)

@@ -35,6 +35,11 @@ public class LeidenAlg
         await CalculateTotalEdgeWeight();
     }
 
+    public int GetCommunityCount()
+    {
+        return _communities.Count;
+    }
+
     private async Task InitializeNodeWeights()
     {
         var idS = await _graphService.GetAllPersonsIdByLevel(0);
@@ -61,6 +66,7 @@ public class LeidenAlg
         }
     }
 
+
     private async Task CalculateTotalEdgeWeight()
     {
         _totalEdgeWeight = await _graphService.GetGraphWeightByLevel(_currentLevelIter);
@@ -80,15 +86,14 @@ public class LeidenAlg
 
             if (improvement)
             {
-                //RefinePartition();
-
                 await AggregateCommunities();
             }
 
             iteration++;
+            Console.WriteLine($"На уровне {_currentLevelIter} полученно {_communities.Count} сообществ");
         }
 
-        Console.WriteLine(_currentLevelIter);
+        // Console.WriteLine(_currentLevelIter);
         await _graphService.FormCommunityNodes(_currentLevelIter);
 
         //await SaveResults();
@@ -208,10 +213,10 @@ public class LeidenAlg
 
     private void RefinePartition()
     {
-        foreach (var community in _communities.Keys)
-        {
-            CheckSubset(community);
-        }
+        // foreach (var community in _communities.Keys)
+        // {
+        //     CheckSubset(community);
+        // }
     }
 
     private Dictionary<int, int> CreateSinglePartition(int communityId, out Dictionary<int, Community> partition)
@@ -266,7 +271,7 @@ public class LeidenAlg
                 }
 
 
-              //  var goodOnes = 
+                //  var goodOnes = 
             }
         }
     }

@@ -281,6 +281,13 @@ public class GraphService
         await session.RunAsync(query, param);
     }
 
+    public async Task DeleteGraph()
+    {
+        await using var session = _driver.AsyncSession();
+        var query = @"match (n) detach delete n";
+        await session.RunAsync(query);
+    }
+    
     public async Task FormCommunityNodes(int maxLevel)
     {
         await using var session = _driver.AsyncSession();
