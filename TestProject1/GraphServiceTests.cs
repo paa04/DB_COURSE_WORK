@@ -32,11 +32,53 @@ public class GraphServiceTests
         //await graphService.DeleteLevel(1);
     }
 
-    [Fact]
-    public async Task TagPersonsTest()
-    {
-        GraphService graphService = new GraphService(Driver);
+    // [Fact]
+    // public async Task TagPersonsTest()
+    // {
+    //     GraphService graphService = new GraphService(Driver);
+    //
+    //     await graphService.TagPersons(2);
+    // }
 
-        await graphService.TagPersons(2);
+    [Fact]
+    public async Task GlobalTesting()
+    {
+        var intraDensities = new double[] { 0.2 };
+        var interDensities = new double[] { 0.00};
+
+        for (var i = 0; i < 1; i++)
+        for(int j = 0; j < 1; j++)
+        {
+            var intra = intraDensities[i];
+            var inter = interDensities[j];
+            
+            using var driver = GraphDatabase.Driver(uri, AuthTokens.Basic(user, password));
+            var graphService = new GraphService(driver);
+            var param = new GenParams
+            {
+                NumberOfCommunities = 10,
+                NodesPerCommunity = 10,
+                IntraCommunityDensity = intra,
+                InterCommunityDensity = inter
+            };
+
+            await GenGraph(driver, param);
+
+            var alg = new LouvainAlg(graphService);
+            await alg.AlgInit();
+            await alg.ExecuteLeiden();
+
+            Console.WriteLine(alg.GetCommunityCount());
+            await graphService.DeleteGraph();
+            await driver.CloseAsync();
+        }
     }
+    
+    private static async Task GenGraph(IDriver driver, GenParams param)
+    {
+        GraphGenerator graphGenerator = new GraphGenerator(driver, param);
+
+        await graphGenerator.GenerateGraph();
+    }
+
 }

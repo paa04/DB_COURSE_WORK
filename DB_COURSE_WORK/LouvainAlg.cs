@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class LeidenAlg
+public class LouvainAlg
 {
     private readonly GraphService _graphService;
 
@@ -20,7 +20,7 @@ public class LeidenAlg
     private Random _random = new Random();
     private int _currentLevelIter = 0;
 
-    public LeidenAlg(GraphService graphService)
+    public LouvainAlg(GraphService graphService)
     {
         _graphService = graphService;
         _nodeCommunities = new Dictionary<int, int>();

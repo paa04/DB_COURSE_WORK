@@ -12,5 +12,6 @@
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::56285AC7-893E-4FE7-A1E0-2CAA57D419D1::net8.0::TestProject1.GraphServiceTests.CreateSuperNodeSaveTest&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::56285AC7-893E-4FE7-A1E0-2CAA57D419D1::net8.0::TestProject1.GraphServiceTests.TagPersonsTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::56285AC7-893E-4FE7-A1E0-2CAA57D419D1::net8.0::TestProject1.GraphServiceTests.GlobalTesting&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
