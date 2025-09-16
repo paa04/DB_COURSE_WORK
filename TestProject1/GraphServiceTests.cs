@@ -66,7 +66,7 @@ public class GraphServiceTests
 
             var alg = new LouvainAlg(graphService);
             await alg.AlgInit();
-            await alg.ExecuteLeiden();
+            await alg.ExecuteLouvain();
 
             Console.WriteLine(alg.GetCommunityCount());
             await graphService.DeleteGraph();

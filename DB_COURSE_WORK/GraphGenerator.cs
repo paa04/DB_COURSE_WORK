@@ -36,10 +36,7 @@ public class GraphGenerator
         IntraCommunityDensity = param.IntraCommunityDensity;
         InterCommunityDensity = param.InterCommunityDensity;
     }
-
-    /// <summary>
-    /// Генерирует граф с явным разбиением на сообщества и сохраняет его в Neo4j
-    /// </summary>
+    
     public async Task GenerateGraph()
     {
         // Console.WriteLine(
@@ -138,10 +135,7 @@ public class GraphGenerator
         // Console.WriteLine("Граф успешно сгенерирован в Neo4j!");
         PrintGraphStatistics(communities, edgesToCreate);
     }
-
-    /// <summary>
-    /// Создает пакет связей между узлами
-    /// </summary>
+    
     private async Task CreateEdgeBatch(List<(int source, int target)> edges)
     {
         await using var session = _driver.AsyncSession();
@@ -160,10 +154,7 @@ public class GraphGenerator
                     CREATE (b)-[:FRIENDS_WITH {weight: 1}]->(a)", parameters);
         });
     }
-
-    /// <summary>
-    /// Создает узлы сообществ и связывает их с узлами
-    /// </summary>
+    
     private async Task CreateCommunities(Dictionary<int, List<int>> communities)
     {
         await using var session = _driver.AsyncSession();
@@ -201,19 +192,13 @@ public class GraphGenerator
             });
         }
     }
-
-    /// <summary>
-    /// Очищает базу данных от существующих данных
-    /// </summary>
+    
     private async Task ClearDatabase()
     {
         await using var session = _driver.AsyncSession();
         await session.ExecuteWriteAsync(async tx => { await tx.RunAsync("MATCH (n) DETACH DELETE n"); });
     }
-
-    /// <summary>
-    /// Создает индексы для оптимизации производительности
-    /// </summary>
+    
     public async Task CreateIndexes()
     {
         await using var session = _driver.AsyncSession();
@@ -223,10 +208,7 @@ public class GraphGenerator
             await tx.RunAsync("CREATE INDEX IF NOT EXISTS FOR (c:Community) ON (c.id)");
         });
     }
-
-    /// <summary>
-    /// Выводит статистику сгенерированного графа
-    /// </summary>
+    
     private void PrintGraphStatistics(Dictionary<int, List<int>> communities, List<(int, int)> edges)
     {
         int totalNodes = communities.Values.Sum(c => c.Count);

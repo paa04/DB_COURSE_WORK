@@ -41,7 +41,7 @@ class Program
                             await MenuGenerateGraph();
                             break;
                         case "2":
-                            await MenuRunLeiden();
+                            await MenuRunLouvain();
                             break;
                         case "3":
                             await MenuDeleteGraph();
@@ -106,10 +106,10 @@ private static async Task MenuGenerateGraph()
 }
 
 
-private static async Task MenuRunLeiden()
+private static async Task MenuRunLouvain()
 {
     Console.Clear();
-    Console.WriteLine("=== Запуск алгоритма Leiden ===");
+    Console.WriteLine("=== Запуск алгоритма Louvain ===");
 
     await using var driver = GraphDatabase.Driver(Uri, AuthTokens.Basic(User, Password));
     var graphService = new GraphService(driver);
@@ -118,7 +118,7 @@ private static async Task MenuRunLeiden()
     Console.WriteLine("Инициализация...");
     await alg.AlgInit();
     Console.WriteLine("Выполнение...");
-    await alg.ExecuteLeiden();
+    await alg.ExecuteLouvain();
 
     Console.WriteLine($"Алгоритм завершён. Найдено сообществ: {alg.GetCommunityCount()}");
     Console.WriteLine("Нажмите любую клавишу...");

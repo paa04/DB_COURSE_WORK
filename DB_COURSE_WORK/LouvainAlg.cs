@@ -73,7 +73,7 @@ public class LouvainAlg
         _totalEdgeWeight /= 2;
     }
 
-    public async Task ExecuteLeiden(int maxIterations = 10)
+    public async Task ExecuteLouvain(int maxIterations = 10)
     {
         bool improvement = true;
         int iteration = 0;
